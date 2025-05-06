@@ -1,5 +1,6 @@
 package system.function;
 
+import config.TestConfig;
 import functions.FunctionSystem;
 import functions.LogarithmFunction;
 import functions.TrigonometricFunctions;
@@ -7,9 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(classes = TestConfig.class)
+@ActiveProfiles("test")
 class FunctionSystemIntegrationTests {
     private FunctionSystem functionSystemWithStubs;
     private FunctionSystem functionSystemWithRealImpl;
