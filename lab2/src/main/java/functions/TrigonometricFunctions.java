@@ -15,33 +15,15 @@ public class TrigonometricFunctions {
     }
 
     public double cos(double x) {
-        x = normalizeAngle(x);
-
-        double sinX = this.sin(x);
-
-        double cosValue = Math.sqrt(1 - sinX * sinX);
-
-        if ((x > Math.PI / 2 && x < 3 * Math.PI / 2)) {
-            cosValue = -cosValue;
-        }
-
-        return cosValue;
+        return sin(x + Math.PI);
     }
 
     public double tan(double x) {
-        return this.sin(x)/this.cos(x);
+        return sin(x)/cos(x);
     }
 
     public double cot(double x) {
         return 1/tan(x);
-    }
-
-    public static double normalizeAngle(double x) {
-        x = x % (2 * Math.PI);
-        if (x < 0) {
-            x += 2 * Math.PI;
-        }
-        return x;
     }
 
     public double csc(double x) {

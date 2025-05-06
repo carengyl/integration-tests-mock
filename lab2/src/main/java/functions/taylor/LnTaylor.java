@@ -7,7 +7,15 @@ public class LnTaylor {
         this.epsilon = epsilon;
     }
 
+    public LnTaylor() {
+        this(0.0001);
+    }
+
     public double ln(double x) {
+        if (x <= 0) {
+            return Double.NaN;
+        }
+
         double result = 0;
         double term = (x - 1) / (x + 1);
         double temp = term;

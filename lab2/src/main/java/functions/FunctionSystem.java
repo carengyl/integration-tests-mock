@@ -1,5 +1,8 @@
 package functions;
 
+import functions.stubs.LnStub;
+import functions.stubs.SinStub;
+
 import static java.lang.Math.pow;
 
 public class FunctionSystem {
@@ -9,6 +12,10 @@ public class FunctionSystem {
     public FunctionSystem(TrigonometricFunctions trigonometricFunctions, LogarithmFunction logarithmFunction) {
         this.trigs = trigonometricFunctions;
         this.logs = logarithmFunction;
+    }
+
+    public FunctionSystem() {
+        this(new TrigonometricFunctions(new SinStub()::sin), new LogarithmFunction(new LnStub()::ln));
     }
 
     public double calculate(double x) {

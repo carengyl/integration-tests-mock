@@ -7,6 +7,10 @@ public class SinTaylor {
         this.epsilon = epsilon;
     }
 
+    public SinTaylor() {
+        this(0.000001);
+    }
+
     public double sin(double x) {
         double result = 0;
         double term = x;
