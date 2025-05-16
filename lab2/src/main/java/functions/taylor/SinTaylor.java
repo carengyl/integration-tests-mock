@@ -1,5 +1,8 @@
 package functions.taylor;
 
+import lombok.Setter;
+
+@Setter
 public class SinTaylor {
     private double epsilon;
 
@@ -23,7 +26,4 @@ public class SinTaylor {
         return result;
     }
 
-    public void setEpsilon(double epsilon) {
-        this.epsilon = epsilon;
-    }
 }

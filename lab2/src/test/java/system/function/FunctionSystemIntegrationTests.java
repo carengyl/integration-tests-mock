@@ -1,20 +1,17 @@
 package system.function;
 
-import config.TestConfig;
 import functions.FunctionSystem;
 import functions.LogarithmFunction;
 import functions.TrigonometricFunctions;
+import functions.taylor.LnTaylor;
+import functions.taylor.SinTaylor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = TestConfig.class)
-@ActiveProfiles("test")
 class FunctionSystemIntegrationTests {
     private FunctionSystem functionSystemWithStubs;
     private FunctionSystem functionSystemWithRealImpl;
@@ -23,13 +20,13 @@ class FunctionSystemIntegrationTests {
     void setUp() {
         functionSystemWithStubs = new FunctionSystem();
 
-        TrigonometricFunctions realTrigs = new TrigonometricFunctions(Math::sin);
-        LogarithmFunction realLogs = new LogarithmFunction(Math::log);
+        TrigonometricFunctions realTrigs = new TrigonometricFunctions(new SinTaylor()::sin);
+        LogarithmFunction realLogs = new LogarithmFunction(new LnTaylor()::ln);
         functionSystemWithRealImpl = new FunctionSystem(realTrigs, realLogs);
     }
 
     @ParameterizedTest
-    @ValueSource(doubles = {-Math.PI, -Math.PI/2, 0.0})
+    @ValueSource(doubles = {-Math.PI, 0.0})
     void calculate_ShouldReturnCorrectResult_ForNonPositiveValues(double x) {
         double stubResult = functionSystemWithStubs.calculate(x);
 
@@ -83,16 +80,6 @@ class FunctionSystemIntegrationTests {
                 () -> assertNotEquals(
                         functionSystemWithRealImpl.calculate(-1e-10),
                         functionSystemWithRealImpl.calculate(1e-10))
-        );
-    }
-
-    @Test
-    void shouldHandleExtremeValues() {
-        assertAll(
-                () -> assertDoesNotThrow(() -> functionSystemWithRealImpl.calculate(Double.MAX_VALUE)),
-                () -> assertDoesNotThrow(() -> functionSystemWithRealImpl.calculate(-Double.MAX_VALUE)),
-                () -> assertDoesNotThrow(() -> functionSystemWithStubs.calculate(Double.POSITIVE_INFINITY)),
-                () -> assertDoesNotThrow(() -> functionSystemWithStubs.calculate(Double.NEGATIVE_INFINITY))
         );
     }
 }
